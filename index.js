@@ -23,7 +23,6 @@ function readEnv (url = path.resolve(__dirname, '.env')) {
     const contenido = fs.readFileSync(url, 'utf-8').split('\n')
     return contenido
   } catch (error) {
-    console.error('Error al leer el archivo:', error)
     return false
   }
 }
