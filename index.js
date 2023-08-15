@@ -20,7 +20,7 @@ function config (options = {}) {
 
 function readEnv (url = path.resolve(__dirname, '.env')) {
   try {
-    const contenido = fs.readFileSync(url, 'utf-8').split('\n').map(e => String(e))
+    const contenido = fs.readFileSync(url, 'utf-8').split('\n').map(e => String(e).replaceAll('"', ''))
     return contenido
   } catch (error) {
     return false
