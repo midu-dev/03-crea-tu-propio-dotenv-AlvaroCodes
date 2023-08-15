@@ -10,6 +10,7 @@ Si falta,la app petaría...
 */
 
 const fs = require('node:fs')
+const path = require('node:path')
 
 function config (options = {}) {
   const path = (typeof options === 'string') ? options : options.path
@@ -17,7 +18,7 @@ function config (options = {}) {
   addEnv(content)
 }
 
-function readEnv (url = './.env') {
+function readEnv (url = path.resolve(__dirname, '.env')) {
   try {
     const contenido = fs.readFileSync(url, 'utf-8').split('\n')
     return contenido
@@ -35,6 +36,7 @@ function addEnv (content) {
   })
 }
 
+// config()
 // config({path: './.envPrueba'})
 // config('./.envPrueba')
 // console.log(process.env.OPINION_CURSO)
