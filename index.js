@@ -3,10 +3,8 @@
 /* Aunque muchas veces recomendamos usar métodos asíncronos para leer ficheros,
 en este caso seguramente no sea la opción. ¿Te imaginas por qué?
 
-+ Es un recurso imprescindible del que dependen otras funcionalidades de la app,
-por lo que hacerlo de manera asíncrona daría errores.
-Por ejemplo, si se levanta un servidor, es necesario el PORT nada más inicializar la app.
-Si falta,la app petaría...
++ Es un recurso imprescindible del que dependen otras funcionalidades de la app (race condition)
++ Tardará más en iniciar el proceso, esto solo se produce una vez.
 */
 
 const fs = require('node:fs')
@@ -20,9 +18,11 @@ function config (options = {}) {
 
 function readEnv (url = path.resolve(__dirname, '.env')) {
   try {
-    const contenido = fs.readFileSync(url, 'utf-8').split('\n').map(e => String(e).replaceAll('"', ''))
-    return contenido
-  } catch (error) {
+    const content = fs.readFileSync(url, 'utf-8')
+    // Se elimina saltos de líneas y comillas
+    const formatContent = content.split('\n').map(e => String(e).replaceAll('"', ''))
+    return formatContent
+  } catch {
     return false
   }
 }
